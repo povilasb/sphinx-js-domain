@@ -15,6 +15,7 @@ from sphinx.locale import l_, _
 from sphinx.directives import ObjectDescription
 from sphinx.roles import XRefRole
 from sphinx.domains.python import _pseudo_parse_arglist
+from sphinx.domains.javascript import JavaScriptDomain
 from sphinx.util.nodes import make_refnode
 from sphinx.util.docfields import Field, GroupedField, TypedField
 
@@ -154,8 +155,10 @@ class JSXRefRole(XRefRole):
             refnode['refspecific'] = True
         return title, target
 
-
-class JavaScriptDomain(Domain):
+"""
+    metalicensetechnologies.com version of JavaScriptDomain
+"""
+class MtlJavaScriptDomain(JavaScriptDomain):
     """JavaScript language domain."""
     name = 'js'
     label = 'JavaScript'
@@ -191,18 +194,30 @@ class JavaScriptDomain(Domain):
         if name[-2:] == '()':
             name = name[:-2]
         objects = self.data['objects']
+
         newname = None
+        object_name = None
+
         if searchorder == 1:
             if obj and obj + '.' + name in objects:
                 newname = obj + '.' + name
             else:
                 newname = name
+
         else:
-            if name in objects:
-                newname = name
-            elif obj and obj + '.' + name in objects:
-                newname = obj + '.' + name
-        return newname, objects.get(newname)
+            for o_name in objects:
+                if objects[o_name][1] == "function":
+                    func_desc = o_name.split(' ', 1)
+                    if name == func_desc[1]:
+                        newname = name
+                        object_name = o_name
+                        break
+
+            if not newname:
+                if obj and obj + '.' + name in objects:
+                    newname = obj + '.' + name
+
+        return object_name, objects.get(object_name)
 
     def resolve_xref(self, env, fromdocname, builder, typ, target, node,
                      contnode):
