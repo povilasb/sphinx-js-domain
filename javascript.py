@@ -42,8 +42,9 @@ class JSObject(ObjectDescription):
 		objectname = self.env.temp_data.get('js:object')
 		if nameprefix:
 		 	if objectname:
-				# someone documenting the method of an attribute of the current
-				# object? shouldn't happen but who knows...
+				# someone documenting the method of an attribute
+				# of the current object? shouldn't happen but
+				# who knows...
 				nameprefix = objectname + '.' + nameprefix
 			fullname = nameprefix + '.' + name
 
@@ -179,6 +180,7 @@ class MtlJavaScriptDomain(JavaScriptDomain):
 		'class': JSXRefRole(fix_parens=True),
 		'data':  JSXRefRole(),
 		'attr':  JSXRefRole(),
+		'ref': JSXRefRole(),
 	}
 
 	initial_data = {
