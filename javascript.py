@@ -211,7 +211,7 @@ class MtlJavaScriptDomain(JavaScriptDomain):
 					func_desc = o_name.split(' ', 1)
 					if len(func_desc) > 1:
 						func_name_i = 1
-					else
+					else:
 						func_name_i = 0
 					if name == func_desc[func_name_i]:
 						object_name = o_name
