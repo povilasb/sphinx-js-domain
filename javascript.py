@@ -122,7 +122,7 @@ class JSCallable(JSObject):
 			names=('argument', 'arg', 'parameter', 'param'),
 			typerolename='func', typenames=('paramtype', 'type')),
 		GroupedField('errors', label=l_('Throws'), rolename='err',
-			names=('throws', ), can_collapse=True),
+			names=('throws', ), can_collapse=False),
 		Field('returnvalue', label=l_('Returns'), has_arg=False,
 			names=('returns', 'return')),
 		Field('returntype', label=l_('Return type'), has_arg=False,
