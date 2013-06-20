@@ -13,6 +13,10 @@ from sphinx.domains.javascript import JavaScriptDomain
 from sphinx.util.nodes import make_refnode
 from sphinx.util.docfields import Field, GroupedField, TypedField
 
+from docutils.parsers.rst import directives
+
+import pdb;
+
 class JSObject(ObjectDescription):
 	"""
 	Description of a JavaScript object.
@@ -23,6 +27,8 @@ class JSObject(ObjectDescription):
 
 	#: what is displayed right before the documentation entry
 	display_prefix = None
+
+	option_spec = {'outertype' : directives.unchanged}
 
 	def handle_signature(self, sig, signode):
 		sig = sig.strip()
@@ -72,6 +78,15 @@ class JSObject(ObjectDescription):
 				signode += addnodes.desc_parameterlist()
 			else:
 				_pseudo_parse_arglist(signode, arglist)
+
+		class_name = self.options.get('outertype')
+		# object belongs to some class or namespace
+		if class_name:
+			# func_desc = function return type + function name
+			func_desc = fullname.split(' ', 1)
+			if len(func_desc) > 1:
+				fullname = func_desc[0] + ' ' + class_name +\
+					'.' + func_desc[1]
 
 		return fullname, nameprefix
 
