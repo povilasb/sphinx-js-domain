@@ -210,8 +210,10 @@ class MtlJavaScriptDomain(JavaScriptDomain):
 	def find_obj(self, env, obj, name, typ, searchorder=0):
 		if name[-2:] == '()':
 			name = name[:-2]
-		objects = self.data['objects']
+		# replace symbol '#' to '.' that could be in method name
+		name = name.replace("#", '.')
 
+		objects = self.data['objects']
 		object_name = None
 
 		if searchorder == 1:
